@@ -1,0 +1,1128 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>NVIDIA FRAMEBASE</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      font-family: 'Inter', sans-serif;
+      color: white;
+      scroll-behavior: smooth;
+      background-color: #000;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeIn 1.2s ease-out forwards;
+    }
+
+    .fade-in.delay-1 { animation-delay: 0.4s; }
+    .fade-in.delay-2 { animation-delay: 0.8s; }
+    .fade-in.delay-3 { animation-delay: 1.2s; }
+
+    .fade-on-scroll {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 1s ease;
+    }
+
+    .fade-on-scroll.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .fade-transition {
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .fade-transition.show {
+      opacity: 1;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #fff;
+      position: relative;
+    }
+
+    .navbar img { height: 65px; }
+
+    .navbar-icons {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-icon {
+      font-size: 36px;
+      color: #000;
+      margin-left: 25px;
+      cursor: pointer;
+      height: 65px;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .navbar-icon a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .navbar-icon span {
+      margin-left: 6px;
+      font-size: 20px;
+    }
+
+    .language-dropdown {
+      position: absolute;
+      top: 70px;
+      right: 100px;
+      background-color: #1a1a1a;
+      border: 1px solid #444;
+      border-radius: 10px;
+      padding: 1rem;
+      display: none;
+      z-index: 999;
+      width: 260px;
+    }
+
+    .language-dropdown h4 {
+      margin: 0.5rem 0 0.2rem;
+      font-size: 0.9rem;
+      color: #76B900;
+    }
+
+    .language-dropdown ul {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 0.5rem;
+    }
+
+    .language-dropdown li {
+      padding: 4px 0;
+      cursor: pointer;
+      font-size: 0.9rem;
+      color: #eee;
+    }
+
+    .language-dropdown li:hover {
+      color: #76B900;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      min-height: 100vh;
+    }
+
+    .main h1 {
+      font-size: 4.5rem;
+      margin: 0.5rem;
+    }
+
+    .main p {
+      color: #ddd;
+      margin-bottom: 2rem;
+      font-size: 1.3rem;
+    }
+
+    .btn-start {
+      background-color: #76B900;
+      color: #000;
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-start:hover {
+      background-color: #6aa300;
+    }
+
+    .scroll-indicator {
+      font-size: 2rem;
+      margin-top: 2rem;
+      animation: bounce 1.6s infinite;
+      color: #76B900;
+    }
+
+    .horizontal-separator {
+  width: 100%;
+  height: 4px;
+  background-color: #444;
+  opacity: 0.4;
+  margin: 3rem 0;
+}
+
+
+
+    
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(10px); }
+    }
+
+    /* CONFIGURARE */
+.config-wrapper {
+  background-color: #000;
+  padding: 5rem 2rem 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6rem;
+  flex-wrap: nowrap;
+  min-height: 100vh; /* 👈 adăugat */
+}
+
+
+    .vertical-separator {
+      width: 2px;
+      background-color: white;
+      opacity: 0.4;
+      align-self: stretch;
+    }
+
+    .config-left, .config-right {
+      flex: 1 1 400px;
+      max-width: 500px;
+    }
+
+    .config-left h2, .config-right h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      color: white;
+    }
+
+    .config-block {
+      background-color: #111;
+      border-radius: 6px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .config-block h3 {
+      margin-bottom: 1rem;
+    }
+
+    .config-block select {
+      width: 100%;
+      margin-bottom: 1rem;
+      padding: 0.8rem 1rem;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: #1a1a1a;
+      color: white;
+      font-size: 1rem;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg fill='white' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1rem;
+    }
+
+    .config-preview p {
+      font-size: 1.1rem;
+      margin: 0.5rem 0;
+    }
+
+    .btn-continue {
+      margin-top: 2rem;
+      padding: 1rem 2rem;
+      background-color: #76B900;
+      color: #000;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      cursor: pointer;
+    }
+.page3-wrapper {
+  background-color: #000;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 8rem; /* inițial centrat vertical */
+  transition: padding-top 0.8s ease;
+}
+
+.page3-wrapper h2 {
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+}
+    .page3-wrapper.move-up {
+  padding-top: 2rem; /* se ridică spre partea de sus */
+}
+
+.domain-buttons {
+  transition: transform 0.8s ease;
+}
+
+.page3-wrapper.move-up .domain-buttons {
+  transform: translateY(-20px); /* ușoară ridicare suplimentară a butoanelor */
+}
+
+.domain-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: stretch; /* 👈 asigură egalitate pe verticală */
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+
+.domain-btn {
+  background-color: white;
+  color: black;
+  font-weight: bold;
+  font-size: 1rem;
+  padding: 1rem 2.5rem;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: background 0.3s, color 0.3s;
+  min-width: 220px;
+  text-align: center;
+  height: 70px; /* sau altă valoare constantă */
+display: flex;
+align-items: center;
+justify-content: center;
+
+
+}
+
+.domain-btn.selected {
+  background-color: #76B900;
+  color: black;
+}
+    
+    .btn-continue:disabled {
+  background-color: #555;
+  color: #ccc;
+  cursor: not-allowed;
+}
+
+  .game-dropdown-container {
+  margin-top: 3rem;
+  transition: justify-content 0.8s ease, padding-left 0.8s ease;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.game-dropdown-container label {
+  font-size: 1.1rem;
+  margin-right: 1rem;
+}
+
+.game-label-group {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: transform 0.8s ease;
+}
+
+.game-dropdown-container select {
+  width: 300px;
+  padding: 0.8rem 1rem;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  background-color: #1a1a1a;
+  color: white;
+  appearance: none;
+}
+
+/* Inițial ascuns */
+.game-dropdown-container.hidden {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(20px);
+}
+
+/* Devine vizibil */
+.game-dropdown-container.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+
+
+   .game-options {
+  display: flex;
+  justify-content: space-between;
+  gap: 4rem;
+  margin-top: 4rem;
+  padding: 2rem;
+  border-top: 2px solid #444;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.game-options.hidden {
+  opacity: 0;
+  transform: translateY(30px);
+  pointer-events: none;
+}
+
+.game-options-left, .game-options-right {
+  flex: 1;
+  color: white;
+}
+
+.game-options-left img {
+  width: 250px;
+  height: auto;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+}
+
+.option-group {
+  margin-bottom: 1.5rem;
+}
+
+.option-group h3 {
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.btn-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+}
+
+.btn-group button {
+  padding: 0.5rem 1rem;
+  background: #222;
+  border: 1px solid #555;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.btn-group button.active {
+  background-color: #76B900;
+  color: black;
+}
+
+.game-options-right h3 {
+  font-size: 1.6rem;
+  margin-bottom: 0.2rem;
+}
+
+.game-options-right h4 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.3rem;
+  font-size: 1.2rem;
+}
+ 
+.separator-jos {
+  margin-top: 2rem; 
+  margin-bottom: 0;  
+}
+
+    .btn-back {
+  margin-top: 2rem;
+  background-color: transparent;
+  border: 2px solid #76B900;
+  color: #76B900;
+  padding: 0.7rem 1.5rem;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  display: block;
+  margin-left: auto; /* aliniere dreapta */
+}
+
+
+    .btn-green-outline {
+  background-color: transparent;
+  border: 2px solid #76B900;
+  color: #76B900;
+  padding: 0.7rem 1.5rem;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+}
+
+.btn-green-outline:hover {
+  background-color: #76B900;
+  color: black;
+}
+    
+    
+    .performance-block {
+  margin-top: 4.6rem; /* ajustează 3rem în funcție de cât de jos vrei */
+}
+    
+    
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+  <a href="https://www.nvidia.com/en-gb/" target="_blank">
+    <img src="https://raw.githubusercontent.com/raducumihaiii/licenta-nvidiaframebase/refs/heads/main/logo-header.png" alt="NVIDIA Logo">
+  </a>
+  <div class="navbar-icons">
+    <div class="navbar-icon" id="lang-toggle">
+      <i class="fas fa-globe"></i><span id="selected-lang">RO</span>
+    </div>
+    <div class="navbar-icon">
+      <a href="https://login.nvgs.nvidia.com/" target="_blank">
+        <i class="fas fa-user-circle"></i>
+      </a>
+    </div>
+  </div>
+  <div class="language-dropdown" id="langMenu">
+    <h4>Europa</h4>
+    <ul>
+      <li>România (Română)</li>
+      <li>Franța (Franceză)</li>
+      <li>Germania (Germană)</li>
+    </ul>
+    <h4>America</h4>
+    <ul>
+      <li>Statele Unite (Engleză)</li>
+      <li>Canada (Engleză / Franceză)</li>
+    </ul>
+    <h4>Asia</h4>
+    <ul>
+      <li>Japonia (Japoneză)</li>
+      <li>China (Chineză)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="main">
+  <h1 class="fade-in">NVIDIA</h1>
+  <h1 class="fade-in delay-1">FRAMEBASE</h1>
+  <p class="fade-in delay-2">Benchmark-uri reale. Configurații reale. Fără surprize.</p>
+<button id="btn-start-custom" class="btn-green-outline fade-in delay-3" onclick="scrollToConfig()">ÎNCEPE ACUM</button>
+
+  <div class="scroll-indicator fade-in delay-3">⬇️</div>
+</div>
+
+<!-- SEPARATOR -->
+<div class="horizontal-separator"></div>
+
+<!-- CONFIG SECTION -->
+<div id="config-section" class="config-wrapper fade-on-scroll">
+  <div class="config-left fade-on-scroll">
+    <h2>SELECTEAZĂ CONFIGURAȚIA</h2>
+    <div class="config-block">
+      <h3>GPU</h3>
+      <select id="gpu-series">
+        <option disabled selected>Selectează seria</option>
+        <option value="4000">GeForce RTX 4000</option>
+        <option value="5000">GeForce RTX 5000</option>
+      </select>
+      <select id="gpu-model">
+        <option disabled selected>Selectează modelul</option>
+      </select>
+    </div>
+    <div class="config-block">
+      <h3>CPU</h3>
+      <select id="cpu-brand">
+        <option disabled selected>Selectează brand-ul</option>
+        <option value="intel">Intel</option>
+        <option value="amd">AMD</option>
+      </select>
+      <select id="cpu-model">
+        <option disabled selected>Selectează modelul CPU</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="vertical-separator"></div>
+
+  <div class="config-right config-preview fade-on-scroll">
+    <h2>CONFIGURAȚIA ALEASĂ</h2>
+    <p id="preview-cpu" class="fade-transition show">CPU: -</p>
+    <p id="preview-gpu" class="fade-transition show">GPU: -</p>
+    <p id="preview-vram" class="fade-transition show">VRAM: -</p>
+    <p id="preview-ram" class="fade-transition show">Memorie: -</p>
+    <button class="btn-continue" id="btn-continue" disabled>CONTINUĂ</button>
+  </div>
+</div>
+
+ <div class="horizontal-separator"></div>
+ 
+  
+ <!-- PAGINA 3: Domeniu -->
+<div id="page3" class="page3-wrapper" style="opacity: 0; transform: translateY(20px); transition: all 1s ease;">
+
+  <h2>DOMENIU</h2>
+  <div class="domain-buttons">
+    <button id="btn-gaming" class="domain-btn">GAMING</button>
+    <button id="btn-productivity" class="domain-btn">PRODUCTIVITATE</button>
+  </div>
+  
+  <div id="game-dropdown-container" class="game-dropdown-container hidden">
+  <div class="game-label-group">
+    <label for="game-select">Jocul:</label>
+    <select id="game-select">
+      <option value="" disabled selected>Selectează un joc...</option>
+      <option>Cyberpunk 2077</option>
+      
+   
+     
+   
+      <option>Hogwarts Legacy</option>
+      
+    </select>
+  </div>
+</div>
+
+
+
+
+
+
+  
+<div id="game-options" class="game-options hidden">
+  <!-- Partea stângă: imagine + butoane -->
+  <div class="game-options-left">
+    <img id="game-image" src="" alt="Game Image" />
+    
+    <div class="option-group">
+      <h3>REZOLUȚIE</h3>
+      <div class="btn-group" data-group="res">
+        <button>1920 x 1080</button>
+        <button>2560 x 1440</button>
+        <button>3840 x 2160</button>
+      </div>
+    </div>
+
+
+    <div class="option-group">
+      <h3>SETĂRI GRAFICE</h3>
+      <div class="btn-group" data-group="graphics">
+        <button>MEDIUM</button>
+        <button>HIGH</button>
+        <button>ULTRA</button>
+      </div>
+    </div>
+
+    <div class="option-group">
+      <h3>RTX</h3>
+      <div class="btn-group" data-group="rtx">
+        <button>OFF</button>
+        <button>ON</button>
+      </div>
+    </div>
+
+    <div class="option-group">
+      <h3>DLSS</h3>
+      <div class="btn-group" data-group="dlss">
+        <button>OFF</button>
+        <button>PERFORMANCE</button>
+        <button>BALANCED</button>
+        <button>QUALITY</button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Partea dreaptă: detalii joc -->
+  <div class="game-options-right">
+    <h3 id="game-title">TITLU JOC</h3>
+    <p id="game-subtitle" class="fade-transition show">Setări aplicate</p>
+
+    <h4>Specificații</h4>
+    <p id="specs-output">GPU: -<br>CPU: -<br>VRAM: -<br>RAM: -</p>
+
+  <div class="performance-block">
+  <h4>Medie FPS:</h4>
+  <p id="fps-output">-</p>
+
+  <h4>1% Low</h4>
+  <p id="low1-output">-</p>
+
+  <h4>Latență</h4>
+  <p id="latency-output">-</p>
+    
+      <button id="btn-back-to-config" style="
+  margin-top: 2rem;
+  background-color: transparent;
+  border: 2px solid #76B900;
+  color: #76B900;
+  padding: 0.7rem 1.5rem;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+">
+  ◀ Înapoi la configurație
+</button>
+    </div>
+    
+  </div>
+</div>
+<!-- SEPARATOR JOS ADĂUGAT -->
+<!-- BARA DE JOS IDENTICĂ CU CEA DE SUS -->
+<div class="horizontal-separator" style="margin-top: 3rem; margin-bottom: 3rem;"></div>
+
+
+
+
+  
+</div>
+  
+<!-- FOOTER -->
+<footer style="text-align:center; background:#111; color:#888; font-size:0.85rem; padding:1rem;">
+  Acest site este un prototip educațional realizat pentru lucrarea de licență la UPB (2025).
+</footer>
+
+<script>
+  const benchmarkData = {};
+  
+      function findBenchmarkEntry(data, cpu, gpu, resolution, graphics, rtx, dlss) {
+  return data.find(entry =>
+    entry.cpu === cpu &&
+    entry.gpu === gpu &&
+    entry.resolution === resolution &&
+    entry.graphics === graphics &&
+    entry.rtx === rtx &&
+    entry.dlss === dlss
+  );
+}
+
+  function getActive(group) {
+  const btn = document.querySelector(`.btn-group[data-group="${group}"] .active`);
+  return btn ? btn.textContent : "-";
+}
+
+  
+    async function updateBenchmarkOutput() {
+       console.log("updateBenchmarkOutput called");
+  const game = document.getElementById("game-title").textContent;
+  const cpu = previewCPU.textContent.replace("CPU: ", "");
+  const gpu = previewGPU.textContent.replace("GPU: ", "");
+  const resolution = getActive("res");
+  const graphics = getActive("graphics");
+  const rtx = getActive("rtx");
+  const dlss = getActive("dlss");
+
+  const data = await loadBenchmarkData(game);
+  const result = findBenchmarkEntry(data, cpu, gpu, resolution, graphics, rtx, dlss);
+
+  if (result) {
+    fadeUpdateText(document.getElementById("fps-output"), result.average_fps + " FPS");
+    fadeUpdateText(document.getElementById("low1-output"), result.low_1_percent + " FPS");
+    fadeUpdateText(document.getElementById("latency-output"), result.latency_ms + " ms");
+  } else {
+    fadeUpdateText(document.getElementById("fps-output"), "-");
+    fadeUpdateText(document.getElementById("low1-output"), "-");
+    fadeUpdateText(document.getElementById("latency-output"), "-");
+  }
+}
+  
+  async function loadBenchmarkData(gameKey) {
+  if (benchmarkData[gameKey]) return benchmarkData[gameKey];
+
+  const urls = {
+    "Cyberpunk 2077": "https://raw.githubusercontent.com/raducumihaiii/licenta-nvidiaframebase/main/gaming-benchmark/cyberpunk.json",
+    "Hogwarts Legacy": "https://raw.githubusercontent.com/raducumihaiii/licenta-nvidiaframebase/main/gaming-benchmark/hogwartslegacy.json"
+  };
+
+
+
+    
+    
+  try {
+    const response = await fetch(urls[gameKey] + "?v=" + Date.now());
+    const data = await response.json();
+    benchmarkData[gameKey] = data;
+    return data;
+  } catch (err) {
+    console.error("Eroare la încărcarea benchmark-ului pentru joc:", gameKey, err);
+    return [];
+  }
+}
+
+  function scrollToConfig() {
+    const target = document.getElementById("config-section");
+    window.scrollTo({ top: target.offsetTop - 50, behavior: 'smooth' });
+    setTimeout(() => {
+      document.querySelectorAll('.fade-on-scroll').forEach(el => el.classList.add('visible'));
+    }, 400);
+  }
+
+  function updateWithFade(el, newText) {
+    el.classList.remove('show');
+    setTimeout(() => {
+      el.textContent = newText;
+      el.classList.add('show');
+    }, 200);
+  }
+  
+  function getGameImage(gameName) {
+  const images = {
+    "Cyberpunk 2077": "https://raw.githubusercontent.com/raducumihaiii/licenta-nvidiaframebase/refs/heads/main/cyberpunk.jpg",
+  
+    "Hogwarts Legacy": "https://raw.githubusercontent.com/raducumihaiii/licenta-nvidiaframebase/refs/heads/main/icon_hogwartslegacy.avif"
+  };
+  return images[gameName] || "";
+}
+  
+
+
+function updateSettingsOutput() {
+  const game = document.getElementById("game-title").textContent;
+
+  const getActive = (group) => {
+    const btn = document.querySelector(`.btn-group[data-group="${group}"] .active`);
+    return btn ? btn.textContent : "-";
+  };
+
+  const res = getActive("res");
+  const gfx = getActive("graphics");
+  const rtx = getActive("rtx");
+  const dlss = getActive("dlss");
+
+ const subtitleEl = document.getElementById("game-subtitle");
+  const newText = `${res}, ${gfx}, RTX ${rtx}, DLSS ${dlss}`;
+
+  fadeUpdateText(subtitleEl, newText);
+
+}
+function updateSpecsOutput() {
+  document.getElementById("specs-output").innerHTML = `
+    ${document.getElementById("preview-gpu").textContent}<br>
+    ${document.getElementById("preview-cpu").textContent}<br>
+    ${document.getElementById("preview-vram").textContent}<br>
+    ${document.getElementById("preview-ram").textContent}
+  `;
+}
+
+
+  const gpuSeries = document.getElementById("gpu-series");
+  const gpuModel = document.getElementById("gpu-model");
+  const cpuBrand = document.getElementById("cpu-brand");
+  const cpuModel = document.getElementById("cpu-model");
+
+  const previewGPU = document.getElementById("preview-gpu");
+  const previewCPU = document.getElementById("preview-cpu");
+  const previewVRAM = document.getElementById("preview-vram");
+  const previewRAM = document.getElementById("preview-ram");
+
+  
+
+  
+
+  
+
+let gpuDataGlobal = {}; // salvăm tot json-ul aici ca să-l folosim și la VRAM
+let cpuDataGlobal = {}; // salvăm JSON-ul de CPU-uri aici
+
+gpuSeries.addEventListener("change", () => {
+  const series = gpuSeries.value;
+  gpuModel.innerHTML = '<option disabled selected>Selectează modelul</option>';
+
+ fetch("https://raw.githubusercontent.com/raducumihaiii/licenta-nvidiaframebase/main/gpu-options.json?v=" + Date.now())
+
+    .then(response => response.json())
+    .then(data => {
+      gpuDataGlobal = data;
+      const models = data[series] || {};
+
+      for (const [model, info] of Object.entries(models)) {
+        const opt = document.createElement("option");
+        opt.value = model;
+        opt.textContent = model;
+
+        if (!info.active) {
+          opt.disabled = true;
+          opt.style.color = "#777";
+        }
+
+        gpuModel.appendChild(opt);
+      }
+
+      updateWithFade(previewGPU, "GPU: -");
+      updateWithFade(previewVRAM, "VRAM: -");
+    })
+    .catch(err => {
+      console.error("Eroare la încărcarea GPU-urilor:", err);
+    });
+});
+
+  gpuModel.addEventListener("change", () => {
+  const model = gpuModel.value;
+  updateWithFade(previewGPU, "GPU: " + model);
+
+  // căutăm VRAM-ul în gpuDataGlobal
+  let vram = "-";
+  const selectedSeries = gpuSeries.value;
+  if (gpuDataGlobal[selectedSeries] && gpuDataGlobal[selectedSeries][model]) {
+    vram = gpuDataGlobal[selectedSeries][model].vram || "-";
+  }
+
+  updateWithFade(previewVRAM, "VRAM: " + vram);
+  updateSpecsOutput();
+});
+
+  
+
+cpuBrand.addEventListener("change", () => {
+  const brand = cpuBrand.value;
+  cpuModel.innerHTML = '<option disabled selected>Selectează modelul CPU</option>';
+
+  // Fetch automat din GitHub RAW URL
+fetch("https://raw.githubusercontent.com/raducumihaiii/licenta-nvidiaframebase/main/cpu-options.json?v=" + Date.now())
+  .then(response => response.json())
+  .then(cpuData => {
+    cpuDataGlobal = cpuData; // ✅ salvăm tot JSON-ul într-o variabilă globală
+    const cpuList = cpuData[brand] || {};
+
+for (const [model, info] of Object.entries(cpuList)) {
+  const opt = document.createElement("option");
+  opt.value = model;
+  opt.textContent = model;
+
+  if (!info.active) {
+    opt.disabled = true;
+    opt.style.color = "#777"; // gri pentru CPU-uri inactive
+  }
+
+  cpuModel.appendChild(opt);
+}
+
+
+      updateWithFade(previewCPU, "CPU: -");
+      updateWithFade(previewRAM, "Memorie: -");
+    })
+    .catch(err => {
+      console.error("Eroare la încărcarea CPU-urilor:", err);
+    });
+});
+
+
+
+
+
+
+ cpuModel.addEventListener("change", () => {
+  const model = cpuModel.value;
+  updateWithFade(previewCPU, "CPU: " + model);
+
+  let ram = "-";
+  const brand = cpuBrand.value;
+  if (cpuDataGlobal[brand] && cpuDataGlobal[brand][model]) {
+    ram = cpuDataGlobal[brand][model].ram || "-";
+  }
+
+  updateWithFade(previewRAM, "Memorie: " + ram);
+  updateSpecsOutput();
+});
+
+
+  // Dropdown limbă
+  const langIcon = document.getElementById("lang-toggle");
+  const langMenu = document.getElementById("langMenu");
+
+  langIcon.addEventListener("click", (e) => {
+    e.stopPropagation();
+    langMenu.style.display = (langMenu.style.display === "block") ? "none" : "block";
+  });
+
+  document.addEventListener("click", (e) => {
+    if (!langMenu.contains(e.target)) {
+      langMenu.style.display = "none";
+    }
+  });
+
+  document.querySelectorAll("#langMenu li").forEach(item => {
+    item.addEventListener("click", () => {
+      const selected = item.textContent;
+      document.getElementById("selected-lang").textContent = selected.split("(")[1].replace(")", "");
+      langMenu.style.display = "none";
+    });
+    
+});
+
+  
+     // Scroll la pagina 3 când dai click pe CONTINUĂ
+document.querySelector(".btn-continue").addEventListener("click", () => {
+  const page3 = document.getElementById("page3");
+  window.scrollTo({ top: page3.offsetTop - 50, behavior: 'smooth' });
+updateSpecsOutput();
+ // Actualizează valorile benchmark când apare pagina 3
+  updateBenchmarkOutput();
+
+  setTimeout(() => {
+    page3.style.opacity = "1";
+    page3.style.transform = "translateY(0)";
+  }, 300);
+});
+
+  document.getElementById("btn-back-to-config").addEventListener("click", () => {
+  const configSection = document.getElementById("config-section");
+  window.scrollTo({ top: configSection.offsetTop - 50, behavior: 'smooth' });
+});
+
+  
+  // Selectare exclusivă domeniu
+const btnGaming = document.getElementById("btn-gaming");
+const btnProductivity = document.getElementById("btn-productivity");
+
+
+function deselectAllDomainButtons() {
+  btnGaming.classList.remove("selected");
+  btnProductivity.classList.remove("selected");
+}
+
+
+
+btnGaming.addEventListener("click", () => {
+  deselectAllDomainButtons();
+  btnGaming.classList.add("selected");
+  movePage3Up();
+
+  // 👇 Afișează dropdown-ul de jocuri
+  const dropdown = document.getElementById("game-dropdown-container");
+  dropdown.classList.remove("hidden");
+  dropdown.classList.add("visible");
+});
+
+
+btnProductivity.addEventListener("click", () => {
+  deselectAllDomainButtons();
+  btnProductivity.classList.add("selected");
+  movePage3Up(); 
+});
+
+  
+
+
+function checkConfigReady() {
+  const gpuSelected = gpuModel.selectedIndex > 0;
+  const cpuSelected = cpuModel.selectedIndex > 0;
+  const continueBtn = document.getElementById("btn-continue");
+
+  if (gpuSelected && cpuSelected) {
+    continueBtn.disabled = false;
+    continueBtn.classList.add("btn-green-outline");
+    continueBtn.style.backgroundColor = "transparent";
+    continueBtn.style.color = "#76B900";
+    continueBtn.style.cursor = "pointer";
+    continueBtn.style.border = "2px solid #76B900";
+  } else {
+    continueBtn.disabled = true;
+    continueBtn.classList.remove("btn-green-outline");
+    continueBtn.style.backgroundColor = "#555";
+    continueBtn.style.color = "#ccc";
+    continueBtn.style.cursor = "not-allowed";
+    continueBtn.style.border = "none";
+  }
+}
+
+
+// Verificare automată la fiecare schimbare
+gpuModel.addEventListener("change", checkConfigReady);
+cpuModel.addEventListener("change", checkConfigReady);
+document.getElementById("game-select").addEventListener("change", (e) => {
+  const selectedGame = e.target.value;
+  const dropdown = document.getElementById("game-dropdown-container");
+  const gameOptions = document.getElementById("game-options");
+  const gameTitle = document.getElementById("game-title");
+  const gameImage = document.getElementById("game-image");
+
+
+
+  // Setează titlul jocului
+  gameTitle.textContent = selectedGame;
+  gameImage.src = getGameImage(selectedGame); // vezi funcția de mai jos
+
+  // Afișează opțiunile jocului
+  gameOptions.classList.remove("hidden");
+
+  // Populează SPEC-uri
+  document.getElementById("specs-output").innerHTML = `
+    ${previewGPU.textContent}<br>
+    ${previewCPU.textContent}<br>
+    ${previewVRAM.textContent}<br>
+    ${previewRAM.textContent}
+  `;
+//  document.getElementById("second-separator").classList.add("visible");
+});
+// ✅ Mută butonul "Înapoi la configurație" sub game-options
+const backBtn = document.getElementById("btn-back-to-config");
+const page3 = document.getElementById("page3");
+
+  
+// Activare exclusivă pe fiecare grup de butoane
+document.querySelectorAll(".btn-group").forEach(group => {
+  const buttons = group.querySelectorAll("button");
+  buttons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      buttons.forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+      
+
+      updateSettingsOutput(); // actualizează textul cu selecția curentă
+      updateBenchmarkOutput();
+
+      
+ 
+
+      
+      
+    });
+  });
+});
+
+  
+ function movePage3Up() {
+  const page3 = document.getElementById("page3");
+  if (!page3.classList.contains("move-up")) {
+    page3.classList.add("move-up");
+  }
+}
+  
+function fadeUpdateText(element, newText) {
+  element.classList.remove("show");
+  setTimeout(() => {
+    element.textContent = newText;
+    element.classList.add("show");
+  }, 200);
+}
+
+  
+</script>
+</body>
+</html>
