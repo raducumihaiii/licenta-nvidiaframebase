@@ -1,36 +1,126 @@
 {
   "intel": {
-    "Intel Core i5-11600K": false,
-    "Intel Core i7-11700K": false,
-    "Intel Core i9-11900K": false,
-    "Intel Core i5-12400F": false,
-    "Intel Core i5-12600K": false,
-    "Intel Core i5-13400F": false,
-    "Intel Core i5-13600K": false,
-    "Intel Core i5-14600K": false,
-    "Intel Core i7-12700K": false,
-    "Intel Core i7-13700K": false,
-    "Intel Core i7-14700K": false,
-    "Intel Core i9-12900K": false,
-    "Intel Core i9-13900K": false,
-    "Intel Core i9-14900K": false
+    "Intel Core i5-11600K": {
+      "active": false,
+      "ram": "32 GB RAM DDR4 3200 MHz"
+    },
+    "Intel Core i7-11700K": {
+      "active": false,
+      "ram": "32 GB RAM DDR4 3200 MHz"
+    },
+    "Intel Core i9-11900K": {
+      "active": false,
+      "ram": "32 GB RAM DDR4 3200 MHz"
+    },
+    "Intel Core i5-12400F": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 4800 MHz"
+    },
+    "Intel Core i5-12600K": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 4800 MHz"
+    },
+    "Intel Core i5-13400F": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 4800 MHz"
+    },
+    "Intel Core i5-13600K": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 4800 MHz"
+    },
+    "Intel Core i5-14600K": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 4800 MHz"
+    },
+    "Intel Core i7-12700K": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 4800 MHz"
+    },
+    "Intel Core i7-13700K": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 4800 MHz"
+    },
+    "Intel Core i7-14700K": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 4800 MHz"
+    },
+    "Intel Core i9-12900K": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 4800 MHz"
+    },
+    "Intel Core i9-13900K": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 4800 MHz"
+    },
+    "Intel Core i9-14900K": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 4800 MHz"
+    }
   },
   "amd": {
-    "Ryzen 5 5500": false,
-    "Ryzen 5 5600": false,
-    "Ryzen 5 5600X": false,
-    "Ryzen 7 5700X": false,
-    "Ryzen 7 5700X3D": false,
-    "Ryzen 7 5800X3D": false,
-    "Ryzen 9 5900X": false,
-    "Ryzen 5 7600X": false,
-    "Ryzen 7 7800X3D": true,
-    "Ryzen 7 9700X": false,
-    "Ryzen 7 9800X3D": true,
-    "Ryzen 9 7900X3D": false,
-    "Ryzen 9 7950X3D": false,
-    "Ryzen 9 9900X3D": false,
-    "Ryzen 9 9950X": false,
-    "Ryzen 9 9950X3D": false
+    "Ryzen 5 5500": {
+      "active": false,
+      "ram": "32 GB RAM DDR4 3200 MHz"
+    },
+    "Ryzen 5 5600": {
+      "active": false,
+      "ram": "32 GB RAM DDR4 3200 MHz"
+    },
+    "Ryzen 5 5600X": {
+      "active": false,
+      "ram": "32 GB RAM DDR4 3200 MHz"
+    },
+    "Ryzen 7 5700X": {
+      "active": false,
+      "ram": "32 GB RAM DDR4 3200 MHz"
+    },
+    "Ryzen 7 5700X3D": {
+      "active": false,
+      "ram": "32 GB RAM DDR4 3200 MHz"
+    },
+    "Ryzen 7 5800X3D": {
+      "active": false,
+      "ram": "32 GB RAM DDR4 3200 MHz"
+    },
+    "Ryzen 9 5900X": {
+      "active": false,
+      "ram": "32 GB RAM DDR4 3200 MHz"
+    },
+    "Ryzen 5 7600X": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 5200 MHz"
+    },
+    "Ryzen 7 7800X3D": {
+      "active": true,
+      "ram": "32 GB RAM DDR5 5200 MHz"
+    },
+    "Ryzen 7 9700X": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 5200 MHz"
+    },
+    "Ryzen 7 9800X3D": {
+      "active": true,
+      "ram": "32 GB RAM DDR5 5200 MHz"
+    },
+    "Ryzen 9 7900X3D": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 5200 MHz"
+    },
+    "Ryzen 9 7950X3D": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 5200 MHz"
+    },
+    "Ryzen 9 9900X3D": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 5200 MHz"
+    },
+    "Ryzen 9 9950X": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 5200 MHz"
+    },
+    "Ryzen 9 9950X3D": {
+      "active": false,
+      "ram": "32 GB RAM DDR5 5200 MHz"
+    }
   }
 }
