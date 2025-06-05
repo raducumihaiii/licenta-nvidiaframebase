@@ -5,39 +5,39 @@
       "vram": "24 GB GDDR6X"
     },
     "RTX 4080 SUPER": {
-      "active": true,
+      "active": false,
       "vram": "16 GB GDDR6X"
     },
     "RTX 4080": {
-      "active": true,
+      "active": false,
       "vram": "16 GB GDDR6X"
     },
     "RTX 4070 Ti SUPER": {
-      "active": true,
+      "active": false,
       "vram": "16 GB GDDR6X"
     },
     "RTX 4070 Ti": {
-      "active": true,
+      "active": false,
       "vram": "12 GB GDDR6X"
     },
     "RTX 4070 SUPER": {
-      "active": true,
+      "active": false,
       "vram": "12 GB GDDR6X"
     },
     "RTX 4070": {
-      "active": true,
+      "active": false,
       "vram": "12 GB GDDR6X"
     },
     "RTX 4060 Ti (8 GB)": {
-      "active": true,
+      "active": false,
       "vram": "8 GB GDDR6"
     },
     "RTX 4060 Ti (16 GB)": {
-      "active": true,
+      "active": false,
       "vram": "16 GB GDDR6"
     },
     "RTX 4060": {
-      "active": true,
+      "active": false,
       "vram": "8 GB GDDR6"
     }
   },
@@ -47,27 +47,27 @@
       "vram": "32 GB GDDR7"
     },
     "RTX 5080": {
-      "active": true,
+      "active": false,
       "vram": "16 GB GDDR7"
     },
     "RTX 5070 Ti": {
-      "active": true,
+      "active": false,
       "vram": "16 GB GDDR7"
     },
     "RTX 5070": {
-      "active": true,
+      "active": false,
       "vram": "12 GB GDDR7"
     },
     "RTX 5060 Ti (8 GB)": {
-      "active": true,
+      "active": false,
       "vram": "8 GB GDDR7"
     },
     "RTX 5060 Ti (16 GB)": {
-      "active": true,
+      "active": false,
       "vram": "16 GB GDDR7"
     },
     "RTX 5060": {
-      "active": true,
+      "active": false,
       "vram": "8 GB GDDR7"
     }
   }
