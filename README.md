@@ -1,4 +1,4 @@
-# licenta-nvidiaframebase
+# NVIDIA Framebase – Educational Thesis Project
 
 Disclaimer
 
