@@ -1,0 +1,23 @@
+{
+  "4000": {
+    "RTX 4090": true,
+    "RTX 4080 SUPER": true,
+    "RTX 4080": true,
+    "RTX 4070 Ti SUPER": true,
+    "RTX 4070 Ti": true,
+    "RTX 4070 SUPER": true,
+    "RTX 4070": true,
+    "RTX 4060 Ti (8 GB)": true,
+    "RTX 4060 Ti (16 GB)": true,
+    "RTX 4060": true
+  },
+  "5000": {
+    "RTX 5090": true,
+    "RTX 5080": true,
+    "RTX 5070 Ti": true,
+    "RTX 5070": true,
+    "RTX 5060 Ti (8 GB)": true,
+    "RTX 5060 Ti (16 GB)": true,
+    "RTX 5060": true
+  }
+}
