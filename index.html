@@ -261,12 +261,11 @@
     }
 .page3-wrapper {
   background-color: #000;
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding-top: 8rem; /* inițial centrat vertical */
+  padding-top: 4rem;
   transition: padding-top 0.8s ease;
 }
 
@@ -383,11 +382,15 @@ justify-content: center;
   transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
-.game-options.hidden {
+.game-options.hidden,
+#productivity-options.hidden {
   opacity: 0;
-  transform: translateY(30px);
+  visibility: hidden;
   pointer-events: none;
+  position: absolute;
+  width: 100%;
 }
+
 
 .game-options-left, .game-options-right {
   flex: 1;
@@ -487,6 +490,37 @@ justify-content: center;
 }
     
     
+#productivity-options {
+  display: flex;
+  justify-content: space-between;
+  gap: 4rem;
+  margin-top: 4rem;
+  padding: 3rem 4rem 5rem;
+  border-top: 2px solid #444;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+
+  min-height: 56vh;      /* face secțiunea să ocupe mai mult spațiu vertical */
+  margin-bottom: 0.5rem;   /* adaugă spațiu după ea, înainte de footer */
+}
+    
+    #btn-back-from-productivity {
+  margin: 2rem auto 0;      /* sus 2rem, auto stânga-dreapta (centrat), jos 0 */
+  background-color: transparent;
+  border: 2px solid #76B900;
+  color: #76B900;
+  padding: 0.7rem 1.5rem;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1rem;
+  display: block;
+  transition: all 0.3s ease;
+  transform: translateY(-10px); /* 👈 îl ridică puțin */
+}
+
+    
+    
+    
   </style>
 </head>
 <body>
@@ -501,7 +535,7 @@ justify-content: center;
       <i class="fas fa-globe"></i><span id="selected-lang">RO</span>
     </div>
     <div class="navbar-icon">
-      <a href="https://login.nvgs.nvidia.com/" target="_blank">
+      <a href="https://login.nvgs.nvidia.com/v1/login/identifier?preferred_nvidia=true&context=Initial&theme=Bright&locale=en-US&prompt=default&key=eyJhbGciOiJIUzI1NiJ9.eyJzZSI6InpZaVQiLCJ0b2tlbklkIjoiMTM4MDI1MDUzNzYzNjgxNDg0OCIsIm90IjoiMTM4MDI1MDUzNzY1MzU5MjA2NCIsImV4cCI6MTc0OTIzNDE3MSwiaWF0IjoxNzQ5MTQ3NzcxLCJqdGkiOiI5N2FkOTVkMS0wNWE2LTQyMDQtYjc3Zi1lMWI3ZDhiMmZlNDAifQ.GpZBSJqLAujvRJoJgYrX4gt8AIqnaJbxUyArGj3Im9w&client_id=310670214980174257" target="_blank">
         <i class="fas fa-user-circle"></i>
       </a>
     </div>
@@ -516,7 +550,7 @@ justify-content: center;
     <h4>America</h4>
     <ul>
       <li>Statele Unite (Engleză)</li>
-      <li>Canada (Engleză / Franceză)</li>
+      <li>Canada (Engleză)</li>
     </ul>
     <h4>Asia</h4>
     <ul>
@@ -688,27 +722,85 @@ justify-content: center;
 ">
   ◀ Înapoi la configurație
 </button>
+    
+    
+     
     </div>
     
+
+     
+
+    
+  </div>
+ 
+</div>
+  
+ 
+  
+
+
+
+<!-- PRODUCTIVITY OPTIONS - acum corect, în afara #game-options -->
+<div id="productivity-options" class="game-options hidden">
+  <div class="game-options-left">
+   <img id="blender-image" src="https://raw.githubusercontent.com/raducumihaiii/licenta-nvidiaframebase/main/icons/icon-blender.png" alt="Blender Image" />
+
+    <div class="option-group">
+      <h3>REZOLUȚIE</h3>
+      <div class="btn-group" data-group="res">
+        <button>1920 x 1080</button>
+        <button>2560 x 1440</button>
+        <button>3840 x 2160</button>
+      </div>
+    </div>
+
+    <div class="option-group">
+      <h3>SCENĂ</h3>
+      <select id="blender-scene-select" style="width: 100%; padding: 0.8rem 1rem; border-radius: 8px; font-size: 1rem; background: #1a1a1a; color: white;">
+        <option disabled selected>Selectează scena...</option>
+        <option>BMW27</option>
+        <option>Classroom</option>
+        <option>Monster</option>
+        <option>Junkshop</option>
+        <option>Sprinkles</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="game-options-right">
+    <h3>Blender Benchmark</h3>
+    <p id="blender-subtitle" class="fade-transition show">Setări: -</p>
+
+    <h4>Specificații</h4>
+    <p id="blender-specs-output">GPU: -<br>CPU: -<br>VRAM: -<br>RAM: -</p>
+
+    <div class="performance-block">
+      <h4>Timp randare:</h4>
+      <p id="blender-render-time">-</p>
+
+      <h4>Scor Blender:</h4>
+      <p id="blender-score">-</p>
+
+      <button id="btn-back-from-productivity" class="btn-back">◀ Înapoi la configurație</button>
+    </div>
   </div>
 </div>
-<!-- SEPARATOR JOS ADĂUGAT -->
-<!-- BARA DE JOS IDENTICĂ CU CEA DE SUS -->
-<div class="horizontal-separator" style="margin-top: 3rem; margin-bottom: 3rem;"></div>
-
-
-
 
   
-</div>
+
   
 <!-- FOOTER -->
-<footer style="text-align:center; background:#111; color:#888; font-size:0.85rem; padding:1rem;">
-  Acest site este un prototip educațional realizat pentru lucrarea de licență la UPB (2025).
+<footer style="text-align:center; background:#111; color:#76B900; font-size:1rem; padding:2rem 1rem; border-top: 2px solid #444;">
+  <strong>DISCLAIMER:</strong><br>
+  Acest site este un prototip educațional realizat pentru lucrarea de licență la <strong>UPB (2025)</strong>.<br>
+  Nu reprezintă un produs oficial NVIDIA. Benchmark-urile sunt simulate pe baza datelor publice și nu trebuie considerate sfaturi de achiziție.
 </footer>
+
+
 
 <script>
   const benchmarkData = {};
+  
   
       function findBenchmarkEntry(data, cpu, gpu, resolution, graphics, rtx, dlss) {
   return data.find(entry =>
@@ -758,6 +850,8 @@ justify-content: center;
     "Cyberpunk 2077": "https://raw.githubusercontent.com/raducumihaiii/licenta-nvidiaframebase/main/gaming-benchmark/cyberpunk.json",
     "Hogwarts Legacy": "https://raw.githubusercontent.com/raducumihaiii/licenta-nvidiaframebase/main/gaming-benchmark/hogwartslegacy.json"
   };
+
+
 
 
 
@@ -977,12 +1071,18 @@ for (const [model, info] of Object.entries(cpuList)) {
 
   
      // Scroll la pagina 3 când dai click pe CONTINUĂ
-document.querySelector(".btn-continue").addEventListener("click", () => {
+document.querySelector(".btn-continue").addEventListener("click", async () => {
   const page3 = document.getElementById("page3");
+  const extraOffset = 120;
   window.scrollTo({ top: page3.offsetTop - 50, behavior: 'smooth' });
-updateSpecsOutput();
- // Actualizează valorile benchmark când apare pagina 3
-  updateBenchmarkOutput();
+
+  updateSpecsOutput();
+  updateBenchmarkOutput(); // pentru gaming
+
+  // dacă PRODUCTIVITATE e activ, actualizează și Blender
+  if (document.getElementById("btn-productivity").classList.contains("selected")) {
+    await updateBlenderOutput();
+  }
 
   setTimeout(() => {
     page3.style.opacity = "1";
@@ -990,11 +1090,19 @@ updateSpecsOutput();
   }, 300);
 });
 
+
   document.getElementById("btn-back-to-config").addEventListener("click", () => {
   const configSection = document.getElementById("config-section");
   window.scrollTo({ top: configSection.offsetTop - 50, behavior: 'smooth' });
 });
 
+  
+  document.getElementById("btn-back-from-productivity").addEventListener("click", () => {
+  const configSection = document.getElementById("config-section");
+  window.scrollTo({ top: configSection.offsetTop - 50, behavior: 'smooth' });
+});
+
+  
   
   // Selectare exclusivă domeniu
 const btnGaming = document.getElementById("btn-gaming");
@@ -1013,17 +1121,58 @@ btnGaming.addEventListener("click", () => {
   btnGaming.classList.add("selected");
   movePage3Up();
 
-  // 👇 Afișează dropdown-ul de jocuri
+  document.getElementById("productivity-options").classList.add("hidden");
+
   const dropdown = document.getElementById("game-dropdown-container");
+  const gameSelect = document.getElementById("game-select");
+
+  // 👇 setează mereu jocul implicit când apeși pe GAMING
+  gameSelect.value = "Cyberpunk 2077";
+  const event = new Event("change");
+  gameSelect.dispatchEvent(event);
+
   dropdown.classList.remove("hidden");
   dropdown.classList.add("visible");
 });
 
 
-btnProductivity.addEventListener("click", () => {
+btnProductivity.addEventListener("click", async () => {
   deselectAllDomainButtons();
   btnProductivity.classList.add("selected");
-  movePage3Up(); 
+  movePage3Up();
+
+  // Ascunde interfața de jocuri
+  document.getElementById("game-options").classList.add("hidden");
+  document.getElementById("game-dropdown-container").classList.add("hidden");
+  document.getElementById("game-dropdown-container").classList.remove("visible");
+
+console.log("Am apăsat pe PRODUCTIVITATE - încerc să afișez Blender");
+document.getElementById("productivity-options").classList.remove("hidden");
+  setTimeout(() => {
+  document.getElementById("productivity-options").scrollIntoView({ behavior: "smooth", block: "start" });
+}, 200);
+
+  console.log("Selectez automat scena și rezoluția pentru Blender");
+
+// Activează primul buton de rezoluție
+const firstResBtn = document.querySelector('#productivity-options .btn-group[data-group="res"] button');
+if (firstResBtn) {
+  firstResBtn.classList.add("active");
+}
+
+// Selectează prima scenă din dropdown
+const sceneSelect = document.getElementById("blender-scene-select");
+if (sceneSelect) {
+  sceneSelect.selectedIndex = 1;
+}
+
+
+  // Actualizează output-ul inițial pentru Blender
+  await updateBlenderOutput();
+});
+
+document.getElementById("blender-scene-select").addEventListener("change", () => {
+  updateBlenderOutput();
 });
 
   
@@ -1068,9 +1217,21 @@ document.getElementById("game-select").addEventListener("change", (e) => {
   gameTitle.textContent = selectedGame;
   gameImage.src = getGameImage(selectedGame); // vezi funcția de mai jos
 
-  // Afișează opțiunile jocului
-  gameOptions.classList.remove("hidden");
 
+
+// Elimină clasa care îl face invizibil
+gameOptions.classList.remove("hidden");
+
+// Așteaptă o fracțiune ca să se aplice transform-ul și să fie randat complet
+setTimeout(() => {
+  const scrollTarget = gameOptions.getBoundingClientRect().top + window.scrollY;
+  window.scrollTo({
+    top: scrollTarget - 60, // poți ajusta offsetul (de ex. -100 sau -80)
+    behavior: 'smooth'
+  });
+}, 500); // > suficient să se aplice .remove("hidden")
+  
+  
   // Populează SPEC-uri
   document.getElementById("specs-output").innerHTML = `
     ${previewGPU.textContent}<br>
@@ -1096,7 +1257,7 @@ document.querySelectorAll(".btn-group").forEach(group => {
 
       updateSettingsOutput(); // actualizează textul cu selecția curentă
       updateBenchmarkOutput();
-
+ updateBlenderOutput(); // ✅ adăugat aici
       
  
 
@@ -1106,6 +1267,62 @@ document.querySelectorAll(".btn-group").forEach(group => {
   });
 });
 
+  
+  
+  // Funcție care încarcă JSON-ul Blender
+async function loadBlenderData() {
+  if (benchmarkData["Blender"]) return benchmarkData["Blender"];
+  try {
+   const response = await fetch("https://raw.githubusercontent.com/raducumihaiii/licenta-nvidiaframebase/main/productivity-benchmark/blender.json?v=" + Date.now());
+
+    const data = await response.json();
+    benchmarkData["Blender"] = data;
+    return data;
+  } catch (err) {
+    console.error("Eroare la încărcarea benchmark Blender:", err);
+    return [];
+  }
+}
+
+// Funcție care afișează scorul și timpul de randare
+async function updateBlenderOutput() {
+  const scene = document.getElementById("blender-scene-select").value;
+  const resolution = getActive("res");
+  const cpu = previewCPU.textContent.replace("CPU: ", "");
+  const gpu = previewGPU.textContent.replace("GPU: ", "");
+
+  const data = await loadBlenderData();
+  const result = data.find(entry =>
+    entry.cpu === cpu &&
+    entry.gpu === gpu &&
+    entry.scene === scene &&
+    entry.resolution === resolution
+  );
+console.log("CPU:", cpu);
+console.log("GPU:", gpu);
+console.log("Scenă:", scene);
+console.log("Rezoluție:", resolution);
+console.log("Rezultat găsit:", result);
+
+  const subtitle = `Scenă: ${scene}, Rezoluție: ${resolution}`;
+  fadeUpdateText(document.getElementById("blender-subtitle"), subtitle);
+  document.getElementById("blender-specs-output").innerHTML = `
+    ${previewGPU.textContent}<br>
+    ${previewCPU.textContent}<br>
+    ${previewVRAM.textContent}<br>
+    ${previewRAM.textContent}
+  `;
+
+  if (result) {
+    fadeUpdateText(document.getElementById("blender-render-time"), result.render_time_sec + " secunde");
+    fadeUpdateText(document.getElementById("blender-score"), result.blender_score.toFixed(2));
+  } else {
+    fadeUpdateText(document.getElementById("blender-render-time"), "-");
+    fadeUpdateText(document.getElementById("blender-score"), "-");
+  }
+}
+
+  
   
  function movePage3Up() {
   const page3 = document.getElementById("page3");
