@@ -37,11 +37,11 @@
       "ram": "32 GB RAM DDR5 4800 MHz"
     },
     "Intel Core i7-13700K": {
-      "active": false,
+      "active": true,
       "ram": "32 GB RAM DDR5 4800 MHz"
     },
     "Intel Core i7-14700K": {
-      "active": false,
+      "active": true,
       "ram": "32 GB RAM DDR5 4800 MHz"
     },
     "Intel Core i9-12900K": {
